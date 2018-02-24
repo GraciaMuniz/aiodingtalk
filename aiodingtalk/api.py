@@ -31,26 +31,53 @@ class DingTalkApi:
 
     async def send_text_message(self, access_token, user_ids, agent_id, text):
         """
+        :param access_token: access token
         :param user_ids: 用户id列表
         :param agent_id: 应用id
         :param text: 要发送的内容
         :return:
         """
+        msg_obj = {
+            'msgtype': 'text',
+            'text': {
+                'content': text
+            },
+        }
+        return await self.__do_send_msg(access_token, user_ids, agent_id,
+                                        msg_obj)
+
+    async def send_markdown_message(self, access_token, user_ids, agent_id,
+                                    title, markdown_text):
+        """
+        :param access_token: access token
+        :param user_ids: 用户id列表
+        :param agent_id: 应用id
+        :param title: 消息标题
+        :param markdown_text: 要发送的markdown内容
+        :return:
+        """
+        msg_obj = {
+            'msgtype': 'markdown',
+            'markdown': {
+                'title': title,
+                'text': markdown_text
+            }
+        }
+        return await self.__do_send_msg(access_token, user_ids, agent_id,
+                                        msg_obj)
+
+    async def __do_send_msg(self, access_token, user_ids, agent_id, msg_obj):
         path = '/message/send?access_token={}'.format(access_token)
         url = urllib.parse.urljoin(self.API_HOST, path)
         if isinstance(user_ids, list):
             to_user = '|'.join(user_ids)
         else:
             to_user = user_ids
-        msg = {
+        msg_obj.update({
             'touser': to_user,
             'agentid': agent_id,
-            'msgtype': 'text',
-            'text': {
-                'content': text
-            },
-        }
-        return await self.__do_post(url, msg)
+        })
+        return await self.__do_post(url, msg_obj)
 
     async def __do_get(self, url, params):
         try:
