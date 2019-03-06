@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='aiodingtalk',
-    version='0.3',
+    version='0.4',
     description='Asyncio-based client for Alibaba Dingtalk IM',
     author='Rocky Feng',
     author_email='folowing@gmail.com',
