@@ -19,12 +19,12 @@ class DingTalkApi:
         self.session = aiohttp.ClientSession(connector=conn)
         self.timeout = timeout
 
-    async def get_token(self, corp_id, corp_secret):
+    async def get_token(self, app_key, app_secret):
         path = '/gettoken'
         url = urllib.parse.urljoin(self.API_HOST, path)
         params = {
-            'corpid': corp_id,
-            'corpsecret': corp_secret,
+            'appkey': app_key,
+            'appsecret': app_secret,
         }
         result = await self.__do_get(url, params)
         return result.get('access_token')
