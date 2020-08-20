@@ -110,10 +110,3 @@ class DingTalkApi:
                 return result
         except asyncio.TimeoutError:
             raise DingTalkTimeoutError()
-
-    def __del__(self):
-        if not self.session.closed:
-            if self.session._connector is not None \
-                    and self.session._connector_owner:
-                self.session._connector.close()
-            self.session._connector = None
