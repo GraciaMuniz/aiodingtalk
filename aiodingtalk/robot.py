@@ -67,10 +67,3 @@ class DingTalkRobot:
         }
         self.__add_misc(msg, recipients, to_all)
         await self._do_post(msg)
-
-    def __del__(self):
-        if not self.session.closed:
-            if self.session._connector is not None \
-                    and self.session._connector_owner:
-                self.session._connector.close()
-            self.session._connector = None
